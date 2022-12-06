@@ -15,7 +15,7 @@ using namespace std;
 //Class slides for referencing sorting algorithms
 //geeksforgeeks.org for use of the timer
 
-class Voter
+class Voter //Class object to store voter information
 {
 private:
 	string firstName;
@@ -56,7 +56,7 @@ public:
 	void SSNsetter(int ssn);
 };
 
-//function to input information into voter object
+//functions to input information into voter object
 void Voter::Input(string input, int counter)
 {
 	if (counter == 1)
@@ -189,6 +189,7 @@ int Voter::getVote()
 	return this->vote;
 }
 
+//Merge sort functions for vector of voters
 void merge(vector<Voter>& voters, int left, int mid, int right, int based)
 {
 	int nX = mid - left + 1;
@@ -292,13 +293,15 @@ void MergeSort(vector<Voter>& voters, int left, int right, int based)
 	}
 }
 
+//Quick sort functions for vector of voters
+//Different partitions used depending on what the sort is based on
 int SSNpartition(vector<Voter>& voters, int low, int high)
 {
 	Voter temp;
 	int pivot = 0;
 	int pivone = low + rand() % (high - low);
 	int pivtwo = low + rand() % (high - low);
-	int pivthree = low + rand() % (high - low);
+	int pivthree = low + rand() % (high - low); //Median is chosen of three random pivots to improve performance
 	if (voters[pivone].getSSN() >= voters[pivtwo].getSSN() && voters[pivone].getSSN() >= voters[pivthree].getSSN())
 	{
 		if (voters[pivtwo].getSSN() >= voters[pivthree].getSSN())
@@ -370,7 +373,7 @@ int ZIPpartition(vector<Voter>& voters, int low, int high)
 	int pivot = 0;
 	int pivone = low + rand() % (high - low);
 	int pivtwo = low + rand() % (high - low);
-	int pivthree = low + rand() % (high - low);
+	int pivthree = low + rand() % (high - low); //Median is chosen of three random pivots to improve performance
 	if (voters[pivone].getZIP() >= voters[pivtwo].getZIP() && voters[pivone].getZIP() >= voters[pivthree].getZIP())
 	{
 		if (voters[pivtwo].getZIP() >= voters[pivthree].getZIP())
@@ -442,7 +445,7 @@ int AgePartition(vector<Voter>& voters, int low, int high)
 	int pivot = 0;
 	int pivone = low + rand() % (high - low);
 	int pivtwo = low + rand() % (high - low);
-	int pivthree = low + rand() % (high - low);
+	int pivthree = low + rand() % (high - low); //Median is chosen of three random pivots to improve performance
 	if (voters[pivone].getAge() >= voters[pivtwo].getAge() && voters[pivone].getAge() >= voters[pivthree].getAge())
 	{
 		if (voters[pivtwo].getAge() >= voters[pivthree].getAge())
@@ -514,7 +517,7 @@ int NamePartition(vector<Voter>& voters, int low, int high)
 	string pivot = "";
 	int pivone = low + rand() % (high - low);
 	int pivtwo = low + rand() % (high - low);
-	int pivthree = low + rand() % (high - low);
+	int pivthree = low + rand() % (high - low); //Median is chosen of three random pivots to improve performance
 	if (voters[pivone].getLastName() >= voters[pivtwo].getLastName() && voters[pivone].getLastName() >= voters[pivthree].getLastName())
 	{
 		if (voters[pivtwo].getLastName() >= voters[pivthree].getLastName())
@@ -588,7 +591,7 @@ void QuickSort(vector<Voter>& voters, int low, int high, int based)
 		if (based == 1)
 		{
 			pivot = SSNpartition(voters, low, high);
-		}
+		} //Partition based on what is being sorted
 		else if (based == 2)
 		{
 			pivot = ZIPpartition(voters, low, high);
@@ -683,13 +686,12 @@ int main()
 	}
 
 	int check = 0;
-	string sorted = "not";
-	string method = "Merge";
+	string method = "Merge"; //Stores sorting method
 	string input = "";
 	while (input != "-1")
 	{
 		check = 0;
-		cout << endl;
+		cout << endl; //Main menu
 		cout << "		Welcome to VoterGraphics!" << endl;
 		cout << endl;
 		cout << "---------------------------------------------------" << endl;
@@ -707,15 +709,15 @@ int main()
 		cout << "---------------------------------------------------" << endl;
 		cout << endl << "Please enter a menu option: ";
 		cin >> input;
-		if (input == "0")
+		if (input == "0") //Allows user to cast vote for a candidate
 		{
 			cout << "Please enter your nine (9) digit SSN: ";
 			cin >> input;
-			if (input.length() != 9)
+			if (input.length() != 9) //Validates input
 			{
 				check++;
 			}
-			for (char c : input)
+			for (char c : input) //Validates input
 			{
 				if (!isdigit(c))
 				{
@@ -730,11 +732,11 @@ int main()
 				int tempSSN = stoi(input);
 				cout << "Enter your password: ";
 				cin >> input;
-				if (ballot.find(tempSSN) == ballot.end())
+				if (ballot.find(tempSSN) == ballot.end()) //Checks if voter exists in system
 				{
 					cout << "You have not registered to vote yet!" << endl;
 				}
-				else if (ballot[tempSSN].first != input)
+				else if (ballot[tempSSN].first != input) //Checks for correct password
 				{
 					cout << "Incorrect password!" << endl;
 				}
@@ -779,15 +781,15 @@ int main()
 				}
 			}
 		}
-		else if (input == "1")
+		else if (input == "1") //Allows the user to register a new voter
 		{
 			cout << "Please enter your nine (9) digit SSN: ";
 			cin >> input;
-			if (input.length() != 9)
+			if (input.length() != 9) //Validates input
 			{
 				check++;
 			}
-			for (char c : input)
+			for (char c : input) //Validates input
 			{
 				if (!isdigit(c))
 				{
@@ -799,7 +801,7 @@ int main()
 				cout << "Invalid input, try again... " << endl;
 			}
 			else {
-				if (SSNbank.count(stoi(input)) == 1)
+				if (SSNbank.count(stoi(input)) == 1) //Checks for unique SSN
 				{
 					cout << "That number is already in use!" << endl;
 				}
@@ -840,16 +842,16 @@ int main()
 				}
 			}
 		}
-		else if (input == "2")
+		else if (input == "2") //Allows user to change their information
 		{
 			cout << "Please enter your nine (9) digit SSN: ";
 			cin >> input;
 			int tempSSN = stoi(input);
-			if (input.length() != 9)
+			if (input.length() != 9) //Validates input
 			{
 				check++;
 			}
-			for (char c : input)
+			for (char c : input) //Validates input
 			{
 				if (!isdigit(c))
 				{
@@ -860,14 +862,14 @@ int main()
 			{
 				cout << "Invalid input, try again... " << endl;
 			}
-			else if (ballot.find(tempSSN) == ballot.end())
+			else if (ballot.find(tempSSN) == ballot.end()) //Checks if voter exists
 			{
 				cout << "You have not registered to vote yet!" << endl;
 			}
 			else {
 				cout << "Enter your password: ";
 				cin >> input;
-				if (ballot[tempSSN].first != input)
+				if (ballot[tempSSN].first != input) //Checks for correct password
 				{
 					cout << "Incorrect password!" << endl;
 				}
@@ -884,7 +886,7 @@ int main()
 					cout << "9) Cancel" << endl;
 					cout << "What would you like to update: " << endl;
 					cin >> input;
-
+					
 					if (input == "1")
 					{
 						cout << "Enter your first name: " << endl;
@@ -1047,7 +1049,7 @@ int main()
 		}
 		else if (input == "7") //Lists all voters alphabetically by last name
 		{
-			cout << "Are you sure you want to list all names? (enter Y to confirm): " << endl;
+			cout << "Are you sure you want to list all names? (enter Y to confirm): " << endl; //Confirms input
 			cin >> input;
 			if (input == "Y" || input == "y")
 			{
